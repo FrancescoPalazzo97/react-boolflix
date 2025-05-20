@@ -2,23 +2,46 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import ReactCountryFlag from "react-country-flag"
 
-const API = 'https://api.themoviedb.org/3/search/movie?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
+const API_Movies = 'https://api.themoviedb.org/3/search/movie?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
+const API_Series = 'https://api.themoviedb.org/3/search/tv?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
 
 function App() {
 
   const [movies, setMovies] = useState([])
+  const [series, setSeries] = useState([])
+  const [all, setAll] = useState(null)
   const [search, setSearch] = useState('')
 
   const getMovies = () => {
-    axios.get(`${API}${search}`)
+    axios.get(`${API_Movies}${search}`)
       .then(res => {
         setMovies(res.data.results)
       })
   }
 
-  const searchMovies = (e) => {
+  const getSeries = () => {
+    axios.get(`${API_Series}${search}`)
+      .then(res => {
+        setSeries(res.data.results)
+      })
+  }
+
+  const getAll = () => {
+    getMovies()
+    getSeries()
+  }
+
+  const searchAll = (e) => {
     setSearch(e.target.value)
   }
+
+  useEffect(() => {
+    movies && series ? setAll([...movies, ...series]) : null
+  }, [movies, series])
+
+  useEffect(() => {
+    console.log(all)
+  }, [all])
 
   const getFlag = (lang) => {
     // switch (lang) {
@@ -33,7 +56,9 @@ function App() {
     // }
     const langsObj = {
       en: <ReactCountryFlag countryCode="US" svg />,
-      it: <ReactCountryFlag countryCode="IT" svg />
+      it: <ReactCountryFlag countryCode="IT" svg />,
+      ja: <ReactCountryFlag countryCode="JP" svg />,
+      ko: <ReactCountryFlag countryCode="KR" svg />
     }
     return langsObj[lang] || <ReactCountryFlag countryCode={`${lang}`} svg />
   };
@@ -42,25 +67,42 @@ function App() {
   return (
     <>
       <header>
-        <input type="text" onChange={(e) => searchMovies(e)} value={search}></input>
-        <button onClick={() => getMovies()}>cerca</button>
+        <input type="text" onChange={(e) => searchAll(e)} value={search}></input>
+        <button onClick={() => getAll()}>cerca</button>
       </header>
       <main>
+        {!all ?
+          (
+            <></>
+          ) : (
+            <ul>
+              {all.map((item, index) => (
+                <li key={item.id}>
+                  elemento {index + 1}
+                  <ul>
+                    {item.title && (
+                      <>
+                        <li>{item.title}</li>
+                        <li>{item.original_title}</li>
+                        <li>{item.vote_average}</li>
+                        <li>{getFlag(item.original_language)}</li>
+                      </>
+                    )}
+                    {item.name && (
+                      <>
+                        <li>{item.name}</li>
+                        <li>{item.name}</li>
+                        <li>{item.vote_average}</li>
+                        <li>{getFlag(item.original_language)}</li>
+                      </>
+                    )}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          )}
 
 
-        <ul>
-          {movies.map((movie, index) => (
-            <li key={movie.id}>
-              elemento {index + 1}
-              <ul>
-                <li>{movie.title}</li>
-                <li>{movie.original_title}</li>
-                <li>{movie.vote_average}</li>
-                <li>{getFlag(movie.original_language)}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
       </main>
     </>
   )
