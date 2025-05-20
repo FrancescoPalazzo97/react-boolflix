@@ -4,6 +4,7 @@ import ReactCountryFlag from "react-country-flag"
 
 const API_Movies = 'https://api.themoviedb.org/3/search/movie?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
 const API_Series = 'https://api.themoviedb.org/3/search/tv?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
+const postPath = 'https://image.tmdb.org/t/p/w342'
 
 function App() {
 
@@ -82,6 +83,9 @@ function App() {
                   <ul>
                     {item.title && (
                       <>
+                        <li>
+                          <img src={`${postPath}${item.poster_path}`} alt="" />
+                        </li>
                         <li>{item.title}</li>
                         <li>{item.original_title}</li>
                         <li>{item.vote_average}</li>
@@ -90,6 +94,9 @@ function App() {
                     )}
                     {item.name && (
                       <>
+                        <li>
+                          <img src={`${postPath}${item.poster_path}`} alt="" />
+                        </li>
                         <li>{item.name}</li>
                         <li>{item.name}</li>
                         <li>{item.vote_average}</li>
