@@ -1,6 +1,9 @@
-import axios from "axios"
-import { useState, useEffect } from "react"
-import ReactCountryFlag from "react-country-flag"
+import axios from "axios";
+import { useState, useEffect } from "react";
+import ReactCountryFlag from "react-country-flag";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
 
 const API_Movies = 'https://api.themoviedb.org/3/search/movie?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
 const API_Series = 'https://api.themoviedb.org/3/search/tv?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
@@ -36,13 +39,51 @@ function App() {
     setSearch(e.target.value)
   }
 
+  const renderItem = (item) => {
+    if (item.title !== undefined) {
+      const { poster_path, title, original_title, vote_average, original_language } = item;
+      const vote = roundedVote(vote_average);
+
+      return (
+        <>
+          <li>
+            <img src={`${postPath}${poster_path}`} alt="" />
+          </li>
+          <li>{title}</li>
+          <li>{original_title}</li>
+          <li>
+            {[...Array(vote)].map((element, i) => (
+              <FontAwesomeIcon key={i} color="gold" icon={faStar} />
+            ))}
+          </li>
+          <li>{getFlag(original_language)}</li>
+        </>
+      )
+    } else {
+      const { poster_path, name, original_name, vote_average, original_language } = item;
+      const vote = roundedVote(vote_average);
+      return (
+        <>
+          <li>
+            <img src={`${postPath}${poster_path}`} alt="" />
+          </li>
+          <li>{name}</li>
+          <li>{original_name}</li>
+          <li>{vote}</li>
+          <li>{getFlag(original_language)}</li>
+        </>
+      )
+    }
+  }
+
+  const roundedVote = (n) => {
+    return Math.round(n / 2);
+  }
+
+
   useEffect(() => {
     movies && series ? setAll([...movies, ...series]) : null
   }, [movies, series])
-
-  useEffect(() => {
-    console.log(all)
-  }, [all])
 
   const getFlag = (lang) => {
     // switch (lang) {
@@ -81,28 +122,7 @@ function App() {
                 <li key={item.id}>
                   elemento {index + 1}
                   <ul>
-                    {item.title && (
-                      <>
-                        <li>
-                          <img src={`${postPath}${item.poster_path}`} alt="" />
-                        </li>
-                        <li>{item.title}</li>
-                        <li>{item.original_title}</li>
-                        <li>{item.vote_average}</li>
-                        <li>{getFlag(item.original_language)}</li>
-                      </>
-                    )}
-                    {item.name && (
-                      <>
-                        <li>
-                          <img src={`${postPath}${item.poster_path}`} alt="" />
-                        </li>
-                        <li>{item.name}</li>
-                        <li>{item.name}</li>
-                        <li>{item.vote_average}</li>
-                        <li>{getFlag(item.original_language)}</li>
-                      </>
-                    )}
+                    {renderItem(item)}
                   </ul>
                 </li>
               ))}
