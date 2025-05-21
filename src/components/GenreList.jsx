@@ -2,8 +2,10 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_MoviesGenres = 'https://api.themoviedb.org/3/genre/movie/list?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT'
-const API_SeriesGenres = 'https://api.themoviedb.org/3/genre/tv/list?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT'
+const API_KEY = import.meta.env.VITE_API_KEY;
+
+const API_MoviesGenres = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=it-IT`
+const API_SeriesGenres = `https://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY}&language=it-IT`
 
 const GenreList = ({ item, isMovie }) => {
 

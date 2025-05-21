@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react'
 import { useLibraryContext } from '../contexts/LibraryContext'
 import axios from 'axios'
 
-const API_Movies = 'https://api.themoviedb.org/3/search/movie?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
-const API_Series = 'https://api.themoviedb.org/3/search/tv?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT&query='
+const API_KEY = import.meta.env.VITE_API_KEY;
+
+const API_Movies = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=it-IT&query=`
+const API_Series = `https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&language=it-IT&query=`
 
 const Searchbar = () => {
 

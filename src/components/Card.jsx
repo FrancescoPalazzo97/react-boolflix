@@ -9,8 +9,8 @@ const postPath = 'https://image.tmdb.org/t/p/w342'
 
 const Card = ({ item }) => {
 
-    const roundedVote = (n) => {
-        return Math.round(n / 2);
+    const roundedVote = (vote) => {
+        return Math.round(vote / 2);
     }
 
     const getStars = (vote) => (

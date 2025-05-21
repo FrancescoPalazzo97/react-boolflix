@@ -14,8 +14,8 @@ const Main = () => {
                     <></>
                 ) : (
                     <ul className='row'>
-                        {all.map((item, index) => (
-                            <Card key={index} item={item} />
+                        {all.map((item) => (
+                            <Card key={item.id} item={item} />
                         ))}
                     </ul>
                 )}

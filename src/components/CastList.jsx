@@ -2,10 +2,12 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_KEY = import.meta.env.VITE_API_KEY;
+
 const CastList = ({ id, isMovie }) => {
 
-    const API_MovieCast = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT`
-    const API_SeriesCast = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=d732698a8c274162c8f3494383cd5a67&language=it-IT`
+    const API_MovieCast = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}&language=it-IT`
+    const API_SeriesCast = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${API_KEY}&language=it-IT`
 
     const [cast, setCast] = useState(null);
     const [filteredCast, setFilteredCast] = useState(null)
