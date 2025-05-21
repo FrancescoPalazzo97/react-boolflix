@@ -13,7 +13,7 @@ const Main = () => {
                 (
                     <></>
                 ) : (
-                    <ul>
+                    <ul className='row'>
                         {all.map((item, index) => (
                             <Card key={index} item={item} index={index} />
                         ))}
