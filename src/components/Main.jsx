@@ -1,7 +1,12 @@
 import React from 'react'
 import Card from './Card'
 
-const Main = ({ all }) => {
+import { useLibraryContext } from '../contexts/LibraryContext'
+
+const Main = () => {
+
+    const { all } = useLibraryContext();
+
     return (
         <main>
             {!all ?
