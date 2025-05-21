@@ -131,6 +131,7 @@ main {
     color: #d2d2d2;
 }
 
-.cast-name {
-    margin-right: 10px;
+.cast-name,
+.genre-name {
+    margin: 0 5px;
 }

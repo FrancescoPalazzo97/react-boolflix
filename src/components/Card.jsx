@@ -3,14 +3,11 @@ import ReactCountryFlag from "react-country-flag";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import CastList from './CastList';
+import GenreList from './GenreList';
 
 const postPath = 'https://image.tmdb.org/t/p/w342'
 
 const Card = ({ item }) => {
-
-    const { id, poster_path, title, original_title, vote_average, original_language, name, original_name } = item;
-
-
 
     const roundedVote = (n) => {
         return Math.round(n / 2);
@@ -34,6 +31,7 @@ const Card = ({ item }) => {
 
     const renderItem = (item) => {
 
+        const { id, poster_path, title, original_title, vote_average, original_language, name, original_name } = item;
         const vote = roundedVote(vote_average);
 
         return (
@@ -54,9 +52,13 @@ const Card = ({ item }) => {
                             {getFlag(original_language)}
                         </div>
                         <div className="cast-container">
+                            Cast:
                             <CastList id={id} isMovie={!!title} /> {/* Trasformo title in booleano esplicito: !!title = title ? true : false */}
                         </div>
-                        <div className="genre-container"></div>
+                        <div className="genre-container">
+                            Genere:
+                            <GenreList item={item} isMovie={!!title} />
+                        </div>
                     </div>
                 </div>
             </>
