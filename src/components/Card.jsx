@@ -6,7 +6,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const postPath = 'https://image.tmdb.org/t/p/w342'
 
-const Card = ({ item, index }) => {
+const Card = ({ item }) => {
 
     const roundedVote = (n) => {
         return Math.round(n / 2);
@@ -35,23 +35,30 @@ const Card = ({ item, index }) => {
 
         return (
             <>
-                <li>
-                    <img src={`${postPath}${poster_path}`} alt="" />
-                </li>
-                <li>{title ? title : name}</li>
-                <li>{original_title ? original_title : original_name}</li>
-                <li>{getStars(vote)}</li>
-                <li>{getFlag(original_language)}</li>
+                <img src={`${postPath}${poster_path}`} alt={title ? title : name} className='card-image' />
+                <div class="card-overlay">
+                    <div class="card-title">
+                        {title ? title : name}
+                    </div>
+                    <div class="card-original-title">
+                        Titolo originale: {original_title ? original_title : original_name}
+                    </div>
+                    <div class="card-info">
+                        <div className="vote">
+                            {getStars(vote)}
+                        </div>
+                        <div className="language">
+                            {getFlag(original_language)}
+                        </div>
+                    </div>
+                </div>
             </>
         )
     }
 
     return (
-        <li>
-            elemento {index + 1}
-            <ul>
-                {renderItem(item)}
-            </ul>
+        <li className='card'>
+            {renderItem(item)}
         </li>
     )
 }
