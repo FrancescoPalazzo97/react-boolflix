@@ -39,63 +39,39 @@ function App() {
     setSearch(e.target.value)
   }
 
-  const renderItem = (item) => {
-    if (item.title !== undefined) {
-      const { poster_path, title, original_title, vote_average, original_language } = item;
-      const vote = roundedVote(vote_average);
-
-      return (
-        <>
-          <li>
-            <img src={`${postPath}${poster_path}`} alt="" />
-          </li>
-          <li>{title}</li>
-          <li>{original_title}</li>
-          <li>
-            {[...Array(vote)].map((element, i) => (
-              <FontAwesomeIcon key={i} color="gold" icon={faStar} />
-            ))}
-          </li>
-          <li>{getFlag(original_language)}</li>
-        </>
-      )
-    } else {
-      const { poster_path, name, original_name, vote_average, original_language } = item;
-      const vote = roundedVote(vote_average);
-      return (
-        <>
-          <li>
-            <img src={`${postPath}${poster_path}`} alt="" />
-          </li>
-          <li>{name}</li>
-          <li>{original_name}</li>
-          <li>{vote}</li>
-          <li>{getFlag(original_language)}</li>
-        </>
-      )
-    }
-  }
-
   const roundedVote = (n) => {
     return Math.round(n / 2);
   }
 
+  const getStars = (vote) => (
+    [...Array(vote)].map((element, i) => (
+      <FontAwesomeIcon key={i} color="gold" icon={faStar} />
+    ))
+  )
+
+  const renderItem = (item) => {
+
+    const { poster_path, title, original_title, vote_average, original_language, name, original_name } = item;
+    const vote = roundedVote(vote_average);
+
+    return (
+      <>
+        <li>
+          <img src={`${postPath}${poster_path}`} alt="" />
+        </li>
+        <li>{title ? title : name}</li>
+        <li>{original_title ? original_title : original_name}</li>
+        <li>{getStars(vote)}</li>
+        <li>{getFlag(original_language)}</li>
+      </>
+    )
+  }
 
   useEffect(() => {
     movies && series ? setAll([...movies, ...series]) : null
   }, [movies, series])
 
   const getFlag = (lang) => {
-    // switch (lang) {
-    //   case "en":
-    //     return <ReactCountryFlag countryCode="US" svg />;
-    //   case "it":
-    //     return <ReactCountryFlag countryCode="IT" svg />;
-    //   case "fr":
-    //     return <ReactCountryFlag countryCode="FR" svg />;
-    //   default:
-    //     return null;
-    // }
     const langsObj = {
       en: <ReactCountryFlag countryCode="US" svg />,
       it: <ReactCountryFlag countryCode="IT" svg />,
@@ -128,8 +104,6 @@ function App() {
               ))}
             </ul>
           )}
-
-
       </main>
     </>
   )
